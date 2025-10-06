@@ -23,7 +23,7 @@ class RestControllerMockMvcTest {
 
         mvc.perform(post("/api/addressbooks/1/buddies")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{"phone":"555-0000"}"))
+                .content("{\"phone\":\"555-0000\"}"))
            .andExpect(status().isBadRequest());
     }
 }
