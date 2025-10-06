@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Address Book</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1rem 1.25rem; max-width: 720px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+    table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+    th, td { padding: .5rem; border-bottom: 1px solid #eee; text-align: left; }
+    .empty { color: #666; font-style: italic; }
+    .meta { color: #888; font-size: .9rem; margin-bottom: .25rem; }
+  </style>
+</head>
+<body>
+<div class="card" th:if="${book != null}">
+  <div class="meta">AddressBook ID: <span th:text="${book.id}">1</span></div>
+  <h1>Buddies</h1>
+  <table th:if="${#lists.size(book.buddies) > 0}">
+    <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr th:each="b : ${book.buddies}">
+        <td th:text="${b.id}">1</td>
+        <td th:text="${b.name}">Alice</td>
+        <td th:text="${b.phone}">555-1111</td>
+        <td th:text="${b.address}">100 Main St</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="empty" th:if="${#lists.size(book.buddies) == 0}">No buddies yet.</p>
+</div>
+<div class="card" th:if="${book == null}">
+  <h1>Address Book</h1>
+  <p class="empty">AddressBook not found.</p>
+</div>
+</body>
+</html>

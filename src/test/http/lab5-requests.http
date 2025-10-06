@@ -1,0 +1,40 @@
+// IntelliJ HTTP Client requests for Lab 5 (includes address field)
+
+### Create a new AddressBook
+POST http://localhost:8080/api/addressbooks
+Content-Type: application/json
+
+### Add a buddy with address (replace 1 with the actual AB id returned above)
+POST http://localhost:8080/api/addressbooks/1/buddies
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "phone": "555-1111",
+  "address": "100 Main St"
+}
+
+### Add another buddy
+POST http://localhost:8080/api/addressbooks/1/buddies
+Content-Type: application/json
+
+{
+  "name": "Bob",
+  "phone": "555-2222",
+  "address": "200 King Rd"
+}
+
+### Get AddressBook 1 (JSON)
+GET http://localhost:8080/api/addressbooks/1
+
+### List all buddies
+GET http://localhost:8080/api/buddies
+
+### Find buddies by name
+GET http://localhost:8080/api/buddies?name=Alice
+
+### Remove buddy with id 2 from AddressBook 1 (adjust IDs as returned)
+DELETE http://localhost:8080/api/addressbooks/1/buddies/2
+
+### View Thymeleaf page for AddressBook 1
+GET http://localhost:8080/addressbooks/1
