@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Address Books</title>
   <!-- Lab6: New landing page for browsing and creating address books via HTML forms. -->
+  <!-- Lab6 part 2: Document SPA assets and behaviour layered onto the server-rendered page. -->
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
     .layout { max-width: 760px; margin: 0 auto; }
@@ -28,17 +29,19 @@
     <h1>Your Address Books</h1>
 
     <!-- Lab6: Surface flash feedback from controller redirects when creations fail or succeed. -->
-    <div th:if="${listError}" class="alert error" th:text="${listError}">Address book not found.</div>
-    <div th:if="${message}" class="alert info" th:text="${message}">Status message.</div>
+    <!-- Lab6 part 2: Expose targets for JS-driven flash messaging. -->
+    <div th:if="${listError}" class="alert error" th:text="${listError}" data-list-error>Address book not found.</div>
+    <div th:if="${message}" class="alert info" th:text="${message}" data-list-message>Status message.</div>
 
     <div class="actions">
       <!-- Lab6: Simple form triggers server-side creation of a new address book. -->
-      <form th:action="@{/addressbooks}" method="post">
+      <!-- Lab6 part 2: Attribute lets JS intercept and enhance book creation without breaking fallback. -->
+      <form th:action="@{/addressbooks}" method="post" data-enhance="create-book">
         <button type="submit">Create New Address Book</button>
       </form>
     </div>
 
-    <table th:if="${!#lists.isEmpty(books)}">
+    <table th:if="${!#lists.isEmpty(books)}" data-books-table>
       <thead>
       <tr>
         <th>ID</th>
@@ -55,10 +58,12 @@
       </tbody>
     </table>
 
-    <p class="empty" th:if="${#lists.isEmpty(books)}">
+    <p class="empty" th:if="${#lists.isEmpty(books)}" data-empty-books>
       No address books yet. Use the button above to create your first one.
     </p>
   </div>
 </div>
+<!-- Lab6 part 2: Load SPA enhancement bundle; defers to guarantee progressive enhancement. -->
+<script defer src="/js/app.js"></script>
 </body>
 </html>

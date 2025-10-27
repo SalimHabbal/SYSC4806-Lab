@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Address Book</title>
   <!-- Lab6: Enhanced detail view styling and navigation for interactive address book management. -->
+  <!-- Lab6 part 2: Clarify that SPA behaviour is layered onto this template. -->
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
     .layout { max-width: 760px; margin: 0 auto; }
@@ -30,7 +31,7 @@
 </head>
 <body>
 <div class="layout">
-  <div class="card" th:if="${book != null}">
+  <div class="card" th:if="${book != null}" th:attr="data-book-id=${book.id}">
     <div class="header">
       <div>
         <a class="back-link" th:href="@{/addressbooks}">&larr; Back to list</a>
@@ -39,12 +40,13 @@
     </div>
 
     <!-- Lab6: Display server-driven flash status messages for create/add flows. -->
-    <div th:if="${message}" class="alert info" th:text="${message}">Status message.</div>
-    <div th:if="${formSuccess}" class="alert success" th:text="${formSuccess}">Buddy added.</div>
-    <div th:if="${formError}" class="alert error" th:text="${formError}">Problem adding buddy.</div>
+    <!-- Lab6 part 2: JS hooks read these attributes to render AJAX feedback. -->
+    <div th:if="${message}" class="alert info" th:text="${message}" data-detail-message>Status message.</div>
+    <div th:if="${formSuccess}" class="alert success" th:text="${formSuccess}" data-detail-success>Buddy added.</div>
+    <div th:if="${formError}" class="alert error" th:text="${formError}" data-detail-error>Problem adding buddy.</div>
 
     <h1 class="section">Buddies</h1>
-    <table th:if="${#lists.size(book.buddies) > 0}">
+    <table th:if="${#lists.size(book.buddies) > 0}" data-buddies-table>
       <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Address</th></tr></thead>
       <tbody>
       <tr th:each="b : ${book.buddies}">
@@ -55,12 +57,13 @@
       </tr>
       </tbody>
     </table>
-    <p class="empty" th:if="${#lists.size(book.buddies) == 0}">No buddies yet.</p>
+    <p class="empty" th:if="${#lists.size(book.buddies) == 0}" data-empty-buddies>No buddies yet.</p>
 
     <div class="section">
       <h2>Add a Buddy</h2>
       <!-- Lab6: Buddy creation form posts back to the controller to persist entries. -->
-      <form th:action="@{/addressbooks/{id}/buddies(id=${book.id})}" method="post">
+      <!-- Lab6 part 2: Enhancing attribute lets JS hijack submission for an SPA flow. -->
+      <form th:action="@{/addressbooks/{id}/buddies(id=${book.id})}" method="post" data-enhance="add-buddy">
         <div class="form-grid">
           <label>
             Name
@@ -86,5 +89,7 @@
     <p class="empty">AddressBook not found.</p>
   </div>
 </div>
+<!-- Lab6 part 2: Shared SPA bundle powers AJAX interactions for both pages. -->
+<script defer src="/js/app.js"></script>
 </body>
 </html>
