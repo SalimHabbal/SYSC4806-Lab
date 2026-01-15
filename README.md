@@ -8,14 +8,12 @@ mvn spring-boot:run
 # then use src/test/http/lab5-requests.http or curl
 ```
 
-## CI status
-![Build](https://github.com/USER/REPO/actions/workflows/maven.yml/badge.svg?branch=main)
+## CI Status
+![Build](https://github.com/SalimHabbal/SYSC4806-Lab/actions/workflows/maven.yml/badge.svg?branch=main)
 
-Replace `USER/REPO` with your GitHub handle and repo name.
 
-## Azure
-After linking this repo to Azure App Service (Windows, Java 17), GitHub Actions deploys on push to `main`.
-Your app will be at:
-```
-https://<app-name>.azurewebsites.net
-```
+## 🌐 Live Deployment
+The application is deployed on Azure App Service and automatically updates on every commit to `main`.
+
+**Live URL:** [https://salimaddybook4806-hwfrasemh9hkczaz.canadacentral-01.azurewebsites.net/addressbooks/1](https://salimaddybook4806-hwfrasemh9hkczaz.canadacentral-01.azurewebsites.net/addressbooks/1)
+

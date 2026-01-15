@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Address Books</title>
+  <!-- Lab6: New landing page for browsing and creating address books via HTML forms. -->
+  <!-- Lab6 part 2: Document SPA assets and behaviour layered onto the server-rendered page. -->
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
+    .layout { max-width: 760px; margin: 0 auto; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+    h1 { margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { padding: .6rem .75rem; border-bottom: 1px solid #eee; text-align: left; }
+    .empty { color: #666; font-style: italic; margin-top: 1rem; }
+    .actions { margin-top: 1.5rem; display: flex; gap: .75rem; }
+    button { background-color: #1f6feb; color: #fff; border: none; padding: .6rem 1.2rem; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+    button:hover { background-color: #1a5fd0; }
+    .alert { padding: .8rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    .alert.info { background: #edf2ff; color: #2c5282; border: 1px solid #a3bffa; }
+    .alert.error { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+    a.btn-link { color: #1f6feb; text-decoration: none; font-weight: 600; }
+    a.btn-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <div class="card">
+    <h1>Your Address Books</h1>
+
+    <!-- Lab6: Surface flash feedback from controller redirects when creations fail or succeed. -->
+    <!-- Lab6 part 2: Expose targets for JS-driven flash messaging. -->
+    <div th:if="${listError}" class="alert error" th:text="${listError}" data-list-error>Address book not found.</div>
+    <div th:if="${message}" class="alert info" th:text="${message}" data-list-message>Status message.</div>
+
+    <div class="actions">
+      <!-- Lab6: Simple form triggers server-side creation of a new address book. -->
+      <!-- Lab6 part 2: Attribute lets JS intercept and enhance book creation without breaking fallback. -->
+      <form th:action="@{/addressbooks}" method="post" data-enhance="create-book">
+        <button type="submit">Create New Address Book</button>
+      </form>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(books)}" data-books-table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Buddies</th>
+        <th>View</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${#lists.size(book.buddies)}">0</td>
+        <td><a class="btn-link" th:href="@{/addressbooks/{id}(id=${book.id})}">Open</a></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <p class="empty" th:if="${#lists.isEmpty(books)}" data-empty-books>
+      No address books yet. Use the button above to create your first one.
+    </p>
+  </div>
+</div>
+<!-- Lab6 part 2: Load SPA enhancement bundle; defers to guarantee progressive enhancement. -->
+<script defer src="/js/app.js"></script>
+</body>
+</html>
